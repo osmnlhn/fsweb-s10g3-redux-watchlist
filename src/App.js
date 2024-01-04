@@ -2,7 +2,7 @@ import { Switch, Route, NavLink } from "react-router-dom";
 import Movie from "./components/Movie";
 import FavMovie from "./components/FavMovie";
 import { useDispatch, useSelector } from "react-redux";
-import { addFavlist,onceki,sonraki,basadon } from "./actions/movieActions";
+import { addFavlist,onceki,sonraki,basadon,removeFavlist } from "./store/actions/movieActions";
 
 function App() {
   
@@ -11,12 +11,17 @@ function App() {
   const favMovies = useSelector((state) => state.favList);
   const movies = useSelector((state) => state.movies);
   const sira = useSelector((state) => state.sira);
+  const listede=useSelector(store=>store.favList.find(f=>f.id===movies[sira].id))
   
   console.log(movies)
   const dispatch = useDispatch();
 
   const handleAddFavlist = () => {
-    dispatch(addFavlist(movies[sira]));
+    if(listede){
+      dispatch(removeFavlist(movies[sira].id));
+    }
+    else {dispatch(addFavlist(movies[sira]))}
+    
   }
   const sonrakiFilm = () => {
     dispatch(sonraki())
@@ -65,7 +70,7 @@ function App() {
             <button 
             onClick={handleAddFavlist}
             className="select-none px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white">
-              Listeme ekle
+              {listede ? "Listeden Cikar":"Listeme ekle"}
             </button>
           </div>
         </Route>
