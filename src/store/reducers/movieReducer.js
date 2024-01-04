@@ -23,31 +23,20 @@ const reducer= (state = initialState, action) => {
             };
 
         case ONCEKI:
-            if (state.sira>0){
-            return {
+            
+            return { 
                 ...state,
-                sira: state.sira - 1,
-            }}
-            else {
-             return {...state, 
-                sira:19-state.sira};
-            };
+                sira: state.sira - 1 >=0 ? state.sira-1:movies.length-1
+            }
 
 
 
         case SONRAKI:
-            if (state.sira<20){
+            
             return {
                 ...state,
-                sira: state.sira + 1,
-            };}
-            else {
-                return {
-                    
-                    state
-                }
-               };
-               
+                sira: state.sira<movies.length-1 ? state.sira +1 : initialState.sira}
+           
         case BASA_DON:
             return {
                 ...state,
